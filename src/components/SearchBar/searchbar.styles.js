@@ -57,7 +57,7 @@ export const SearchIcon = styled.span`
   }
 `;
 
-export const CloseIcon = styled.span`
+export const CloseIcon = styled(motion.span)`
   color: #bebebe;
   font-size: 27px;
   margin-right: 30px;

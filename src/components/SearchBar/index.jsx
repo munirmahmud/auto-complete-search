@@ -1,3 +1,4 @@
+import { AnimatePresence } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import { useClickOutside } from "react-click-outside-hook";
 import { IoClose, IoSearch } from "react-icons/io5";
@@ -60,9 +61,20 @@ const SearchBar = () => {
           onFocus={expandContainer}
           ref={inputRef}
         />
-        <CloseIcon onClick={collapseContainer}>
-          <IoClose />
-        </CloseIcon>
+        <AnimatePresence>
+          {isExpanded && (
+            <CloseIcon
+              key="close-icon"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={collapseContainer}
+            >
+              <IoClose />
+            </CloseIcon>
+          )}
+        </AnimatePresence>
       </SearchInputContainer>
     </SearchBarContainer>
   );
