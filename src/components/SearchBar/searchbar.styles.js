@@ -1,6 +1,7 @@
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
-export const SearchBarContainer = styled.div`
+export const SearchBarContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   width: 34rem;
