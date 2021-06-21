@@ -69,3 +69,26 @@ export const CloseIcon = styled(motion.span)`
     color: #dfdfdf;
   }
 `;
+
+export const LineSeperator = styled.div`
+  display: flex;
+  min-width: 100%;
+  min-height: 1px;
+  background-color: #d8d8d878;
+`;
+
+export const SearchContent = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+`;
+
+export const LoadingWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
