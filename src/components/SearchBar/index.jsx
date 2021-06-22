@@ -51,8 +51,6 @@ const SearchBar = () => {
     if (isClickedOutside) collapseContainer();
   }, [isClickedOutside]);
 
-  const searchTVShows = () => {};
-
   return (
     <SearchBarContainer
       animate={isExpanded ? "expanded" : "collapsed"}
