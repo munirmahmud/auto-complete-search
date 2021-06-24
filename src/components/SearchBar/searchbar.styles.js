@@ -9,7 +9,6 @@ export const SearchBarContainer = styled(motion.div)`
   background-color: #fff;
   border-radius: 6px;
   box-shadow: 0px 2px 12px 3px rgba(0, 0, 0, 0.15);
-  overflow: hidden;
 `;
 
 export const SearchInputContainer = styled.div`
@@ -78,11 +77,13 @@ export const LineSeperator = styled.div`
 `;
 
 export const SearchContent = styled.div`
-  width: 100%;
+  width: auto;
   height: 100%;
   display: flex;
   flex-direction: column;
   padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
 `;
 
 export const LoadingWrapper = styled.div`

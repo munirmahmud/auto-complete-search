@@ -5,6 +5,7 @@ import { useClickOutside } from "react-click-outside-hook";
 import { IoClose, IoSearch } from "react-icons/io5";
 import { MoonLoader } from "react-spinners";
 import { useDebounce } from "../../hooks/debounceHook";
+import TvShow from "../TvShow";
 import {
   CloseIcon,
   LineSeperator,
@@ -18,7 +19,7 @@ import {
 
 const containerVariants = {
   expanded: {
-    height: "20rem",
+    height: "30rem",
   },
   collapsed: {
     height: "3.9rem",
@@ -54,6 +55,7 @@ const SearchBar = () => {
     setIsExpanded(false);
     setLoading(false);
     setSearchQuery("");
+    setTvShows([]);
 
     if (inputRef.current) inputRef.current.value = "";
   };
@@ -123,14 +125,31 @@ const SearchBar = () => {
           )}
         </AnimatePresence>
       </SearchInputContainer>
-      <LineSeperator />
-      <SearchContent>
-        {isLoading && (
-          <LoadingWrapper>
-            <MoonLoader loading size={25} />
-          </LoadingWrapper>
-        )}
-      </SearchContent>
+
+      {isExpanded && <LineSeperator />}
+
+      {isExpanded && (
+        <SearchContent>
+          {isLoading && (
+            <LoadingWrapper>
+              <MoonLoader loading size={25} />
+            </LoadingWrapper>
+          )}
+
+          {!isLoading && !isEmpty && (
+            <>
+              {tvShows.map(({ show }, index) => (
+                <TvShow
+                  key={index}
+                  thumbnailSrc={show?.image?.medium}
+                  name={show?.name}
+                  rating={show?.rating?.average}
+                />
+              ))}
+            </>
+          )}
+        </SearchContent>
+      )}
     </SearchBarContainer>
   );
 };
