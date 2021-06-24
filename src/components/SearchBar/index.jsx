@@ -10,6 +10,7 @@ import {
   CloseIcon,
   LineSeperator,
   LoadingWrapper,
+  NotFound,
   SearchBarContainer,
   SearchContent,
   SearchIcon,
@@ -35,17 +36,13 @@ const containerTransition = {
 const SearchBar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isLoading, setLoading] = useState(false);
+  const [noTvShows, setNoTvShows] = useState(false);
   const [parentRef, isClickedOutside] = useClickOutside();
   const inputRef = useRef();
   const [searchQuery, setSearchQuery] = useState("");
   const [tvShows, setTvShows] = useState([]);
 
   const isEmpty = !tvShows || tvShows.length === 0;
-
-  // const changeHandler = (e) => {
-  //   e.preventDefault()
-  //   setSearchQuery(e.target.value);
-  // };
 
   const expandContainer = () => {
     setIsExpanded(true);
@@ -56,6 +53,7 @@ const SearchBar = () => {
     setLoading(false);
     setSearchQuery("");
     setTvShows([]);
+    setNoTvShows(false);
 
     if (inputRef.current) inputRef.current.value = "";
   };
@@ -81,11 +79,10 @@ const SearchBar = () => {
       console.log("Error", err);
     });
 
-    console.log(response);
-
     if (response) {
+      if (response.data && response.data.length === 0) setNoTvShows(true);
+
       setTvShows(response.data);
-      console.log("Respnose", response.data);
     }
     setLoading(false);
   };
@@ -133,6 +130,18 @@ const SearchBar = () => {
           {isLoading && (
             <LoadingWrapper>
               <MoonLoader loading size={25} />
+            </LoadingWrapper>
+          )}
+
+          {!isLoading && isEmpty && !noTvShows && (
+            <LoadingWrapper>
+              <NotFound>Start typing to search</NotFound>
+            </LoadingWrapper>
+          )}
+
+          {!isLoading && noTvShows && (
+            <LoadingWrapper>
+              <NotFound>No TV Shows or Series found</NotFound>
             </LoadingWrapper>
           )}
 

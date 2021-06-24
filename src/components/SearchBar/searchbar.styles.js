@@ -93,3 +93,11 @@ export const LoadingWrapper = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
+export const NotFound = styled.div`
+  color: #a1a1a1;
+  font-size: 14px;
+  display: flex;
+  align-self: center;
+  justify-self: center;
+`;
