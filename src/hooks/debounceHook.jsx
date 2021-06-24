@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-export const useDebounce = ({ value, timeout, callback }) => {
-  const [timer, setTimer] = useState(null);
+export const useDebounce = (value, timeout, callback) => {
+  const [timer, setTimer] = useState("");
 
   const clearTimer = () => {
     if (timer) clearTimeout(timer);
@@ -15,6 +15,4 @@ export const useDebounce = ({ value, timeout, callback }) => {
       setTimer(newTimer);
     }
   }, [value]);
-
-  return <div></div>;
 };

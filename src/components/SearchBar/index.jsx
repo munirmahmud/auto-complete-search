@@ -1,8 +1,10 @@
+import axios from "axios";
 import { AnimatePresence } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 import { useClickOutside } from "react-click-outside-hook";
 import { IoClose, IoSearch } from "react-icons/io5";
 import { MoonLoader } from "react-spinners";
+import { useDebounce } from "../../hooks/debounceHook";
 import {
   CloseIcon,
   LineSeperator,
@@ -31,9 +33,18 @@ const containerTransition = {
 
 const SearchBar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [parentRef, isClickedOutside] = useClickOutside();
   const inputRef = useRef();
   const [searchQuery, setSearchQuery] = useState("");
+  const [tvShows, setTvShows] = useState([]);
+
+  const isEmpty = !tvShows || tvShows.length === 0;
+
+  // const changeHandler = (e) => {
+  //   e.preventDefault()
+  //   setSearchQuery(e.target.value);
+  // };
 
   const expandContainer = () => {
     setIsExpanded(true);
@@ -41,15 +52,43 @@ const SearchBar = () => {
 
   const collapseContainer = () => {
     setIsExpanded(false);
-    if (inputRef.current) {
-      inputRef.current.value = "";
-    }
+    setLoading(false);
     setSearchQuery("");
+
+    if (inputRef.current) inputRef.current.value = "";
   };
 
   useEffect(() => {
     if (isClickedOutside) collapseContainer();
   }, [isClickedOutside]);
+
+  const prepareSearchQuery = (query) => {
+    const url = `http://api.tvmaze.com/search/shows?q=${query}`;
+
+    return encodeURI(url);
+  };
+
+  const searchTVShows = async () => {
+    if (!searchQuery || searchQuery.trim() === "") return;
+
+    setLoading(true);
+
+    const URL = prepareSearchQuery(searchQuery);
+
+    const response = await axios.get(URL).catch((err) => {
+      console.log("Error", err);
+    });
+
+    console.log(response);
+
+    if (response) {
+      setTvShows(response.data);
+      console.log("Respnose", response.data);
+    }
+    setLoading(false);
+  };
+
+  useDebounce(searchQuery, 500, searchTVShows);
 
   return (
     <SearchBarContainer
@@ -86,10 +125,11 @@ const SearchBar = () => {
       </SearchInputContainer>
       <LineSeperator />
       <SearchContent>
-        Love the idea
-        <LoadingWrapper>
-          <MoonLoader loading size={25} />
-        </LoadingWrapper>
+        {isLoading && (
+          <LoadingWrapper>
+            <MoonLoader loading size={25} />
+          </LoadingWrapper>
+        )}
       </SearchContent>
     </SearchBarContainer>
   );
